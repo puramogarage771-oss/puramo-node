@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>PURAMO NODE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      color: #00ffcc;
-      font-family: "Consolas", monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-    h1 {
-      font-size: 3rem;
-      text-shadow: 0 0 10px #00ffcc;
-    }
-    p {
-      opacity: 0.8;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Puramo Node</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: black;
+  color: #00ffcc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 5px #00ffcc; }
+  to   { text-shadow: 0 0 20px #00ffcc; }
+}
+</style>
 </head>
 <body>
-  <div>
-    <h1>PURAMO NODE</h1>
-    <p>GitHub Pages ONLINE</p>
-    <p>サイバー起動中…</p>
-  </div>
+  SYSTEM ONLINE
 </body>
 </html>
+
