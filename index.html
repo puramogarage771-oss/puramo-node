@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>起動確認</title>
+
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: black;
+    background-color: #05080c;   /* 起動前：暗 */
     color: #00ffcc;
     display: flex;
     align-items: center;
@@ -15,6 +16,13 @@
     font-family: monospace;
     font-size: 2rem;
     overflow: hidden;
+    transition: background-color 1.2s ease, filter 1.2s ease;
+    filter: brightness(0.75);
+  }
+
+  body.room-light {
+    background-color: #0b1220;   /* 起動後：明 */
+    filter: brightness(1);
   }
 
   .hidden {
@@ -31,36 +39,20 @@
   }
 </style>
 </head>
+
 <body>
 
-<div id="boot" class="blink">BOOTING...</div>
-<div id="online" class="hidden">SYSTEM ONLINE</div>
-
-<script>
-  setTimeout(() => {
-    document.getElementById("boot").classList.add("hidden");
-    document.getElementById("online").classList.remove("hidden");
-  }, 2500);
-</script>
-<body class="room-dark">
-
-  <!-- ここに既存のHTML（DOWNLOAD ROOMの中身） -->
-  <!-- 文章・ログ・画像・ボタンなど -->
-
-  <!-- ↓ ここから貼る（bodyの一番下） -->
-  <style>
-    body {
-      transition: background-color 1.2s ease, filter 1.2s ease;
-      background-color: #05080c;
-      filter: brightness(0.75);
-    }
-    body.room-light {
-      background-color: #0b1220;
-      filter: brightness(1);
-    }
-  </style>
+  <div id="boot" class="blink">BOOTING...</div>
+  <div id="online" class="hidden">SYSTEM ONLINE</div>
 
   <script>
+    // 起動テキスト切替
+    setTimeout(() => {
+      document.getElementById("boot").classList.add("hidden");
+      document.getElementById("online").classList.remove("hidden");
+    }, 2500);
+
+    // 音声＋部屋点灯
     window.addEventListener("load", () => {
       const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
       msg.lang = "ja-JP";
@@ -75,9 +67,6 @@
       }, 700);
     });
   </script>
-  <!-- ↑ ここまで -->
-
-</body>
 
 </body>
 </html>
