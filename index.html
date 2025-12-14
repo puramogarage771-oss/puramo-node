@@ -9,8 +9,8 @@
   body {
     margin: 0;
     height: 100vh;
-    background-color: #020404;   /* 暗い部屋 */
-    filter: brightness(0.6);
+    background-color: #020404;
+    filter: brightness(0.55);
     color: #00ffcc;
     font-family: monospace;
     overflow: hidden;
@@ -18,8 +18,8 @@
   }
 
   body.room-light {
-    background-color: #101a33;   /* 起動後 */
-    filter: brightness(1.2);
+    background-color: #0f1e3a;
+    filter: brightness(1.25);
   }
 
   .hidden { display: none; }
@@ -30,7 +30,7 @@
     51%,100% { opacity: 0; }
   }
 
-  /* ===== ゲート全体 ===== */
+  /* ===== ゲート ===== */
   #gate {
     position: fixed;
     inset: 0;
@@ -38,11 +38,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.18em;
+    padding: 5vw; /* スマホ余白対策 */
   }
 
   #boot {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   #enter {
@@ -50,35 +51,38 @@
   }
 
   #enter .title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   #enter .sub {
-    margin-top: 12px;
-    font-size: 1rem;
+    margin-top: 14px;
+    font-size: 1.2rem;
     opacity: 0.75;
   }
 
   #online {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
-  /* ===== スマホ専用（ここが重要） ===== */
+  /* ===== スマホ超強化 ===== */
   @media screen and (max-width: 768px) {
+
     #boot {
-      font-size: 3.2rem;
+      font-size: 4.5rem;
     }
 
     #enter .title {
-      font-size: 3rem;
+      font-size: 4.2rem;
+      line-height: 1.2;
     }
 
     #enter .sub {
-      font-size: 1.4rem;
+      font-size: 2rem;
+      margin-top: 24px;
     }
 
     #online {
-      font-size: 3rem;
+      font-size: 4.5rem;
     }
   }
 </style>
@@ -91,7 +95,7 @@
 
   <div id="enter" class="hidden">
     <div class="title">アクセスノード</div>
-    <div class="sub">クリックして入室</div>
+    <div class="sub">タップして入室</div>
   </div>
 
   <div id="online" class="hidden">SYSTEM ONLINE</div>
@@ -104,7 +108,7 @@
     document.getElementById("enter").classList.remove("hidden");
   }, 2000);
 
-  // クリックで起動
+  // タップで起動
   document.getElementById("enter").addEventListener("click", () => {
 
     const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
