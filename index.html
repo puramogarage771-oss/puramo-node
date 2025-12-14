@@ -1,55 +1,30 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>起動確認</title>
+<div id="enter" style="
+  cursor:pointer;
+  text-align:center;
+  color:#00ffcc;
+  letter-spacing:2px;
+">
+  <div style="font-size:1.5rem;">ACCESS NODE</div>
+  <div style="font-size:0.9rem; opacity:0.7;">CLICK TO ENTER</div>
+</div>
 
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background-color: #02040a; /* 起動前 */
-  color: #00ffcc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: monospace;
-  font-size: 2rem;
-  overflow: hidden;
-  filter: brightness(0.6);
-  transition: background-color 1.2s ease, filter 1.2s ease;
-}
-
-body.room-light {
-  background-color: #101a33; /* 起動後 */
-  filter: brightness(1);
-}
-
-.hidden { display: none; }
-
-.blink {
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%,50% { opacity: 1; }
-  51%,100% { opacity: 0; }
-}
-</style>
-</head>
-
-<body>
-
-<div id="boot" class="blink">BOOTING...</div>
 <div id="online" class="hidden">SYSTEM ONLINE</div>
 
 <script>
-setTimeout(() => {
-  document.getElementById("boot").classList.add("hidden");
+document.getElementById("enter").addEventListener("click", () => {
+
+  // 音声（女性寄り）
+  const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
+  msg.lang = "ja-JP";
+  msg.rate = 0.9;
+  msg.pitch = 1.3;
+  msg.volume = 0.9;
+  speechSynthesis.speak(msg);
+
+  // 画面遷移
+  document.getElementById("enter").classList.add("hidden");
   document.getElementById("online").classList.remove("hidden");
   document.body.classList.add("room-light");
-}, 2500);
-</script>
 
-</body>
-</html>
+});
+</script>
