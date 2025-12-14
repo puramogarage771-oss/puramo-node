@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>起動確認</title>
 
 <style>
-  /* ===== 共通 ===== */
   body {
     margin: 0;
     height: 100vh;
@@ -19,7 +19,7 @@
 
   body.room-light {
     background-color: #0f1e3a;
-    filter: brightness(1.25);
+    filter: brightness(1.3);
   }
 
   .hidden { display: none; }
@@ -30,7 +30,6 @@
     51%,100% { opacity: 0; }
   }
 
-  /* ===== ゲート ===== */
   #gate {
     position: fixed;
     inset: 0;
@@ -38,12 +37,13 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    letter-spacing: 0.18em;
-    padding: 5vw; /* スマホ余白対策 */
+    letter-spacing: 0.2em;
+    padding: 6vw;
   }
 
+  /* ===== 文字サイズ（vwで強制支配） ===== */
   #boot {
-    font-size: 2.2rem;
+    font-size: 12vw;   /* 画面幅の12% */
   }
 
   #enter {
@@ -51,39 +51,18 @@
   }
 
   #enter .title {
-    font-size: 2rem;
+    font-size: 11vw;
+    line-height: 1.15;
   }
 
   #enter .sub {
-    margin-top: 14px;
-    font-size: 1.2rem;
+    margin-top: 4vw;
+    font-size: 6vw;
     opacity: 0.75;
   }
 
   #online {
-    font-size: 2.2rem;
-  }
-
-  /* ===== スマホ超強化 ===== */
-  @media screen and (max-width: 768px) {
-
-    #boot {
-      font-size: 4.5rem;
-    }
-
-    #enter .title {
-      font-size: 4.2rem;
-      line-height: 1.2;
-    }
-
-    #enter .sub {
-      font-size: 2rem;
-      margin-top: 24px;
-    }
-
-    #online {
-      font-size: 4.5rem;
-    }
+    font-size: 12vw;
   }
 </style>
 </head>
@@ -102,15 +81,12 @@
 </div>
 
 <script>
-  // BOOT → ENTER
   setTimeout(() => {
     document.getElementById("boot").classList.add("hidden");
     document.getElementById("enter").classList.remove("hidden");
   }, 2000);
 
-  // タップで起動
   document.getElementById("enter").addEventListener("click", () => {
-
     const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
     msg.lang = "ja-JP";
     msg.rate = 0.9;
