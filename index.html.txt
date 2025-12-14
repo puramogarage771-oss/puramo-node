@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Puramo Node</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: black;
+  color: #00ffcc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  font-size: 2rem;
+}
+</style>
+</head>
+<body>
+SYSTEM ONLINE
+</body>
+</html>
