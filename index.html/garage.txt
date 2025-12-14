@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>GARAGE MATRIX NODE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* ===== 基本 ===== */
+html,body{
+  margin:0; padding:0;
+  width:100%; height:100%;
+  background:#000;
+  color:#0f0;
+  font-family: "Consolas","Courier New",monospace;
+  overflow:hidden;
+}
+
+/* ===== マトリックス雨 ===== */
+canvas{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+}
+
+/* ===== 中央UI ===== */
+.ui{
+  position:relative;
+  z-index:1;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.panel{
+  border:1px solid #0f0;
+  padding:30px 40px;
+  box-shadow:0 0 20px #0f0;
+  background:rgba(0,0,0,0.6);
+}
+
+.panel h1{
+  margin:0 0 10px;
+  letter-spacing:3px;
+}
+
+.panel p{
+  margin:0 0 20px;
+  font-size:14px;
+  opacity:0.9;
+}
+
+.btn{
+  display:inline-block;
+  padding:10px 25px;
+  border:1px solid #0f0;
+  color:#0f0;
+  text-decoration:none;
+  transition:0.3s;
+}
+.btn:hover{
+  background:#0f0;
+  color:#000;
+  box-shadow:0 0 15px #0f0;
+}
+</style>
+</head>
+
+<body>
+<canvas id="matrix"></canvas>
+
+<div class="ui">
+  <div class="panel">
+    <h1>GARAGE MATRIX</h1>
+    <p>SYSTEM ONLINE<br>PIC CONTROL NODE</p>
+    <a class="btn" href="#">ENTER</a>
+  </div>
+</div>
+
+<script>
+/* ===== Matrix Rain JS ===== */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+const chars = "0123456789ABCDEF";
+const fontSize = 16;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(0);
+
+function draw(){
+  ctx.fillStyle = "rgba(0,0,0,0.08)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = "#0f0";
+  ctx.font = fontSize + "px monospace";
+
+  for(let i=0;i<drops.length;i++){
+    const text = chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+setInterval(draw, 33);
+</script>
+</body>
+</html>
