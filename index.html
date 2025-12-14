@@ -1,30 +1,93 @@
-<div id="enter" style="
-  cursor:pointer;
-  text-align:center;
-  color:#00ffcc;
-  letter-spacing:2px;
-">
-  <div style="font-size:1.5rem;">ACCESS NODE</div>
-  <div style="font-size:0.9rem; opacity:0.7;">CLICK TO ENTER</div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>起動確認</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: #020404;
+    filter: brightness(0.6);
+    color: #00ffcc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    overflow: hidden;
+    transition: background-color 1.2s ease, filter 1.2s ease;
+  }
+
+  body.room-light {
+    background-color: #101a33;
+    filter: brightness(1.2);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .blink {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  #enter {
+    cursor: pointer;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  #enter .sub {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 8px;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- 起動前 -->
+<div id="boot" class="blink">BOOTING...</div>
+
+<!-- 入室操作 -->
+<div id="enter" class="hidden">
+  <div style="font-size:1.6rem;">アクセスノード</div>
+  <div class="sub">クリックして入室</div>
 </div>
 
+<!-- 起動後 -->
 <div id="online" class="hidden">SYSTEM ONLINE</div>
 
 <script>
-document.getElementById("enter").addEventListener("click", () => {
+  // 起動演出
+  setTimeout(() => {
+    document.getElementById("boot").classList.add("hidden");
+    document.getElementById("enter").classList.remove("hidden");
+  }, 2000);
 
-  // 音声（女性寄り）
-  const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
-  msg.lang = "ja-JP";
-  msg.rate = 0.9;
-  msg.pitch = 1.3;
-  msg.volume = 0.9;
-  speechSynthesis.speak(msg);
+  // 侵入クリック
+  document.getElementById("enter").addEventListener("click", () => {
 
-  // 画面遷移
-  document.getElementById("enter").classList.add("hidden");
-  document.getElementById("online").classList.remove("hidden");
-  document.body.classList.add("room-light");
+    const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
+    msg.lang = "ja-JP";
+    msg.rate = 0.9;
+    msg.pitch = 1.3;
+    msg.volume = 0.9;
+    speechSynthesis.speak(msg);
 
-});
+    document.body.classList.add("room-light");
+
+    document.getElementById("enter").classList.add("hidden");
+    document.getElementById("online").classList.remove("hidden");
+  });
 </script>
+
+</body>
+</html>
