@@ -1,72 +1,7 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>起動確認</title>
-
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background-color: #05080c;   /* 起動前：暗 */
-    color: #00ffcc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: monospace;
-    font-size: 2rem;
-    overflow: hidden;
-    transition: background-color 1.2s ease, filter 1.2s ease;
-    filter: brightness(0.75);
-  }
-
-  body.room-light {
-    background-color: #0b1220;   /* 起動後：明 */
-    filter: brightness(1);
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .blink {
-    animation: blink 1s infinite;
-  }
-
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-</style>
-</head>
-
-<body>
-
-  <div id="boot" class="blink">BOOTING...</div>
-  <div id="online" class="hidden">SYSTEM ONLINE</div>
-
-  <script>
-    // 起動テキスト切替
-    setTimeout(() => {
-      document.getElementById("boot").classList.add("hidden");
-      document.getElementById("online").classList.remove("hidden");
-    }, 2500);
-
-    // 音声＋部屋点灯
-    window.addEventListener("load", () => {
-      const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
-      msg.lang = "ja-JP";
-      msg.rate = 0.9;
-      msg.pitch = 1.2;
-      msg.volume = 0.65;
-
-      speechSynthesis.speak(msg);
-
-      setTimeout(() => {
-        document.body.classList.add("room-light");
-      }, 700);
-    });
-  </script>
-
-</body>
-</html>
+<script>
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.body.classList.add("room-light");
+  }, 700);
+});
+</script>
