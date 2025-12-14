@@ -1,7 +1,10 @@
-<script>
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    document.body.classList.add("room-light");
-  }, 700);
-});
-</script>
+body {
+  background-color: #02040a;   /* 起動前：かなり暗い */
+  filter: brightness(0.6);
+  transition: background-color 1.2s ease, filter 1.2s ease;
+}
+
+body.room-light {
+  background-color: #101a33;   /* 起動後：はっきり明るい */
+  filter: brightness(1);
+}
