@@ -42,6 +42,42 @@
     document.getElementById("online").classList.remove("hidden");
   }, 2500);
 </script>
+<body class="room-dark">
+
+  <!-- ここに既存のHTML（DOWNLOAD ROOMの中身） -->
+  <!-- 文章・ログ・画像・ボタンなど -->
+
+  <!-- ↓ ここから貼る（bodyの一番下） -->
+  <style>
+    body {
+      transition: background-color 1.2s ease, filter 1.2s ease;
+      background-color: #05080c;
+      filter: brightness(0.75);
+    }
+    body.room-light {
+      background-color: #0b1220;
+      filter: brightness(1);
+    }
+  </style>
+
+  <script>
+    window.addEventListener("load", () => {
+      const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
+      msg.lang = "ja-JP";
+      msg.rate = 0.9;
+      msg.pitch = 1.2;
+      msg.volume = 0.65;
+
+      speechSynthesis.speak(msg);
+
+      setTimeout(() => {
+        document.body.classList.add("room-light");
+      }, 700);
+    });
+  </script>
+  <!-- ↑ ここまで -->
+
+</body>
 
 </body>
 </html>
