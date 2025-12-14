@@ -2,115 +2,95 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>起動確認</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* =====================
-   基本設定
-===================== */
-body {
-  margin: 0;
-  height: 100vh;
-  background-color: #020404;
-  color: #00ffcc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: monospace;
-  overflow: hidden;
-  transition: background-color 1.2s ease, filter 1.2s ease;
-  filter: brightness(0.7);
-}
+  /* ===== 全体 ===== */
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: #020404;
+    color: #00ffcc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    overflow: hidden;
+    transition: background-color 1.2s ease, filter 1.2s ease;
+    filter: brightness(0.65);
+  }
 
-body.room-light {
-  background-color: #0a131a;
-  filter: brightness(1);
-}
+  body.room-light {
+    background-color: #0a141f;
+    filter: brightness(1);
+  }
 
-/* =====================
-   中央コンテナ
-===================== */
-#enter {
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-}
+  /* ===== 中央コンテナ ===== */
+  .center {
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
 
-/* =====================
-   テキスト（スマホ基準）
-===================== */
-.title {
-  font-size: clamp(2rem, 8vw, 3.2rem);
-  letter-spacing: 0.15em;
-}
-
-.sub {
-  margin-top: 1.2rem;
-  font-size: clamp(1rem, 4vw, 1.4rem);
-  opacity: 0.75;
-  letter-spacing: 0.25em;
-}
-
-/* =====================
-   PCサイズ調整（重要）
-===================== */
-@media (min-width: 769px) {
+  /* ===== メイン文字 ===== */
   .title {
-    font-size: clamp(2rem, 3vw, 3rem);
+    font-size: clamp(2.2rem, 6vw, 3.6rem); /* PCもスマホも最適 */
+    letter-spacing: 0.2em;
+    margin-bottom: 0.6em;
   }
+
+  /* ===== サブ文字 ===== */
   .sub {
-    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+    opacity: 0.85;
   }
-}
 
-/* =====================
-   点滅演出
-===================== */
-.blink {
-  animation: blink 1.2s infinite;
-}
+  /* ===== 点滅 ===== */
+  .blink {
+    animation: blink 1.2s infinite;
+  }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.4; }
-}
+  @keyframes blink {
+    0%, 45% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
 </style>
 </head>
 
 <body>
 
-<!-- =====================
-     入口表示
-===================== -->
-<div id="enter" class="blink">
+<div id="enter" class="center blink">
   <div class="title">アクセスノード</div>
   <div class="sub">タップして入室</div>
 </div>
 
 <script>
-/* =====================
-   入室処理
-===================== */
-document.getElementById("enter").addEventListener("click", () => {
+  const enter = document.getElementById("enter");
 
-  // 明るくする
-  document.body.classList.add("room-light");
+  enter.addEventListener("click", () => {
 
-  // 音声（※ユーザー操作後なのでスマホOK）
-  const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
-  msg.lang = "ja-JP";
-  msg.rate = 0.9;
-  msg.pitch = 1.2;
-  msg.volume = 0.7;
-  speechSynthesis.speak(msg);
+    /* 点滅停止 */
+    enter.classList.remove("blink");
 
-  // フェード後に遷移（必要ならURL変更）
-  setTimeout(() => {
-    // window.location.href = "download.html";
-  }, 1400);
-});
+    /* 明るくする */
+    document.body.classList.add("room-light");
+
+    /* 音声（ユーザー操作後なのでOK） */
+    const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
+    msg.lang = "ja-JP";
+    msg.rate = 0.9;
+    msg.pitch = 1.15;
+    msg.volume = 0.7;
+    speechSynthesis.speak(msg);
+
+    /* 必要なら遷移 */
+    // setTimeout(() => {
+    //   window.location.href = "download.html";
+    // }, 1500);
+  });
 </script>
 
 </body>
 </html>
+
