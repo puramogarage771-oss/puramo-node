@@ -6,92 +6,111 @@
 <title>起動確認</title>
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: #020404;
-    color: #00ffcc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: monospace;
-    overflow: hidden;
-    transition: background-color 1.2s ease, filter 1.2s ease;
-    filter: brightness(0.7);
-  }
+/* =====================
+   基本設定
+===================== */
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: #020404;
+  color: #00ffcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  overflow: hidden;
+  transition: background-color 1.2s ease, filter 1.2s ease;
+  filter: brightness(0.7);
+}
 
-  body.room-light {
-    background-color: #0a131a;
-    filter: brightness(1);
-  }
+body.room-light {
+  background-color: #0a131a;
+  filter: brightness(1);
+}
 
-  #enter {
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-  }
+/* =====================
+   中央コンテナ
+===================== */
+#enter {
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
 
+/* =====================
+   テキスト（スマホ基準）
+===================== */
+.title {
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  letter-spacing: 0.15em;
+}
+
+.sub {
+  margin-top: 1.2rem;
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  opacity: 0.75;
+  letter-spacing: 0.25em;
+}
+
+/* =====================
+   PCサイズ調整（重要）
+===================== */
+@media (min-width: 769px) {
   .title {
-    font-size: clamp(2.2rem, 6vw, 4.5rem);
-    letter-spacing: 0.15em;
+    font-size: clamp(2rem, 3vw, 3rem);
   }
-
   .sub {
-    margin-top: 1.2rem;
-    font-size: clamp(1rem, 3.5vw, 1.6rem);
-    opacity: 0.75;
-    letter-spacing: 0.25em;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
   }
+}
 
-  .blink {
-    animation: blink 1.2s infinite;
-  }
+/* =====================
+   点滅演出
+===================== */
+.blink {
+  animation: blink 1.2s infinite;
+}
 
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0.4; }
-  }
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.4; }
+}
 </style>
 </head>
 
 <body>
 
-<div id="enter">
-  <div class="title blink">アクセスノード</div>
+<!-- =====================
+     入口表示
+===================== -->
+<div id="enter" class="blink">
+  <div class="title">アクセスノード</div>
   <div class="sub">タップして入室</div>
 </div>
 
 <script>
-  const enter = document.getElementById("enter");
-  let activated = false;
+/* =====================
+   入室処理
+===================== */
+document.getElementById("enter").addEventListener("click", () => {
 
-  enter.addEventListener("click", () => {
-    if (activated) return;
-    activated = true;
+  // 明るくする
+  document.body.classList.add("room-light");
 
-    // 音声（ユーザー操作後なのでスマホOK）
-    const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動");
-    msg.lang = "ja-JP";
-    msg.rate = 0.9;
-    msg.pitch = 1.15;
-    msg.volume = 0.8;
-    speechSynthesis.speak(msg);
+  // 音声（※ユーザー操作後なのでスマホOK）
+  const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
+  msg.lang = "ja-JP";
+  msg.rate = 0.9;
+  msg.pitch = 1.2;
+  msg.volume = 0.7;
+  speechSynthesis.speak(msg);
 
-    // 明るくなる
-    setTimeout(() => {
-      document.body.classList.add("room-light");
-    }, 500);
-
-    // 表示切り替え
-    setTimeout(() => {
-      enter.innerHTML = `
-        <div class="title">SYSTEM ONLINE</div>
-        <div class="sub">WELCOME</div>
-      `;
-    }, 1400);
-  });
+  // フェード後に遷移（必要ならURL変更）
+  setTimeout(() => {
+    // window.location.href = "download.html";
+  }, 1400);
+});
 </script>
 
 </body>
 </html>
-
