@@ -5,81 +5,113 @@
 <title>起動確認</title>
 
 <style>
+  /* ===== 共通 ===== */
   body {
     margin: 0;
     height: 100vh;
-    background-color: #020404;
+    background-color: #020404;   /* 暗い部屋 */
     filter: brightness(0.6);
     color: #00ffcc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-family: monospace;
     overflow: hidden;
     transition: background-color 1.2s ease, filter 1.2s ease;
   }
 
   body.room-light {
-    background-color: #101a33;
+    background-color: #101a33;   /* 起動後 */
     filter: brightness(1.2);
   }
 
-  .hidden {
-    display: none;
-  }
-
-  .blink {
-    animation: blink 1s infinite;
-  }
+  .hidden { display: none; }
+  .blink { animation: blink 1s infinite; }
 
   @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    0%,50% { opacity: 1; }
+    51%,100% { opacity: 0; }
+  }
+
+  /* ===== ゲート全体 ===== */
+  #gate {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    letter-spacing: 0.15em;
+  }
+
+  #boot {
+    font-size: 2rem;
   }
 
   #enter {
     cursor: pointer;
-    text-align: center;
-    letter-spacing: 2px;
+  }
+
+  #enter .title {
+    font-size: 1.8rem;
   }
 
   #enter .sub {
-    font-size: 0.9rem;
-    opacity: 0.7;
-    margin-top: 8px;
+    margin-top: 12px;
+    font-size: 1rem;
+    opacity: 0.75;
+  }
+
+  #online {
+    font-size: 2rem;
+  }
+
+  /* ===== スマホ専用（ここが重要） ===== */
+  @media screen and (max-width: 768px) {
+    #boot {
+      font-size: 3.2rem;
+    }
+
+    #enter .title {
+      font-size: 3rem;
+    }
+
+    #enter .sub {
+      font-size: 1.4rem;
+    }
+
+    #online {
+      font-size: 3rem;
+    }
   }
 </style>
 </head>
 
 <body>
 
-<!-- 起動前 -->
-<div id="boot" class="blink">BOOTING...</div>
+<div id="gate">
+  <div id="boot" class="blink">BOOTING...</div>
 
-<!-- 入室操作 -->
-<div id="enter" class="hidden">
-  <div style="font-size:1.6rem;">アクセスノード</div>
-  <div class="sub">クリックして入室</div>
+  <div id="enter" class="hidden">
+    <div class="title">アクセスノード</div>
+    <div class="sub">クリックして入室</div>
+  </div>
+
+  <div id="online" class="hidden">SYSTEM ONLINE</div>
 </div>
 
-<!-- 起動後 -->
-<div id="online" class="hidden">SYSTEM ONLINE</div>
-
 <script>
-  // 起動演出
+  // BOOT → ENTER
   setTimeout(() => {
     document.getElementById("boot").classList.add("hidden");
     document.getElementById("enter").classList.remove("hidden");
   }, 2000);
 
-  // 侵入クリック
+  // クリックで起動
   document.getElementById("enter").addEventListener("click", () => {
 
     const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
     msg.lang = "ja-JP";
     msg.rate = 0.9;
-    msg.pitch = 1.3;
-    msg.volume = 0.9;
+    msg.pitch = 1.25;
+    msg.volume = 1.0;
     speechSynthesis.speak(msg);
 
     document.body.classList.add("room-light");
