@@ -1,23 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>サイバー起動確認</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: black;
-      color: #00ffcc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: monospace;
-      font-size: 2rem;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>サイバー起動確認</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: black;
+    color: #00ffcc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 2rem;
+    overflow: hidden;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .blink {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+</style>
 </head>
 <body>
-  SYSTEM ONLINE
+
+<div id="boot" class="blink">BOOTING...</div>
+<div id="online" class="hidden">SYSTEM ONLINE</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById("boot").classList.add("hidden");
+    document.getElementById("online").classList.remove("hidden");
+  }, 2500);
+</script>
+
 </body>
 </html>
