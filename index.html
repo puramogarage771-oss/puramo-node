@@ -6,18 +6,12 @@
 <title>起動確認</title>
 
 <style>
-/* =====================
-   テーマカラー
-===================== */
 :root {
   --bg-dark: #020404;
   --bg-light: #0a141f;
   --neon: #00ffcc;
 }
 
-/* =====================
-   基本設定
-===================== */
 body {
   margin: 0;
   height: 100svh;
@@ -37,29 +31,20 @@ body.room-light {
   filter: brightness(1);
 }
 
-/* =====================
-   中央ユニット（1つだけ）
-===================== */
 #gate {
   text-align: center;
-  user-select: none;
   cursor: pointer;
+  user-select: none;
 }
 
-/* =====================
-   テキスト
-===================== */
 .title {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
   letter-spacing: 0.2em;
 }
 
-/* =====================
-   脈動アニメ
-===================== */
 @keyframes pulse {
-  0%   { opacity: 0.4; }
-  50%  { opacity: 1; }
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
   100% { opacity: 0.4; }
 }
 
@@ -68,54 +53,4 @@ body.room-light {
 }
 
 .loading {
-  animation: pulse 1.2s ease-in-out infinite;
-}
-</style>
-</head>
-
-<body>
-
-<!-- ===== 中央表示（これだけ） ===== -->
-<div id="gate" class="waiting">
-  <div class="title" id="title">アクセスノード</div>
-</div>
-
-<script>
-/* =====================
-   クリック処理（1回のみ）
-===================== */
-const gate  = document.getElementById("gate");
-const title = document.getElementById("title");
-
-let started = false;
-
-gate.addEventListener("click", () => {
-
-  if (started) return;
-  started = true;
-
-  /* 待機アニメ停止 */
-  gate.classList.remove("waiting");
-  gate.style.animation = "none";
-
-  /* 明転 */
-  document.body.classList.add("room-light");
-
-  /* 表示切り替え */
-  title.textContent = "起動中…";
-
-  /* 起動中アニメ */
-  gate.classList.add("loading");
-
-  /* 音声（1回のみ） */
-  const voice = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
-  voice.lang = "ja-JP";
-  voice.rate = 0.9;
-  voice.pitch = 1.15;
-  voice.volume = 0.7;
-  speechSynthesis.speak(voice);
-});
-</script>
-
-</body>
-</html>
+  animation: pulse 1.2s
