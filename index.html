@@ -12,6 +12,7 @@
   --neon: #00ffcc;
 }
 
+/* ===== 基本 ===== */
 body {
   margin: 0;
   height: 100svh;
@@ -31,17 +32,20 @@ body.room-light {
   filter: brightness(1);
 }
 
+/* ===== 中央固定 ===== */
 #gate {
   text-align: center;
-  cursor: pointer;
   user-select: none;
+  cursor: pointer;
 }
 
+/* ===== テキスト ===== */
 .title {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
   letter-spacing: 0.2em;
 }
 
+/* ===== アニメ ===== */
 @keyframes pulse {
   0% { opacity: 0.4; }
   50% { opacity: 1; }
@@ -60,34 +64,41 @@ body.room-light {
 
 <body>
 
+<!-- ===== 中央表示（最初から両方用意） ===== -->
 <div id="gate" class="waiting">
-  <div class="title">アクセスノード</div>
+  <div class="title" id="access">アクセスノード</div>
+  <div class="title" id="loading" style="display:none;">起動中…</div>
 </div>
 
 <script>
-const gate = document.getElementById("gate");
+const gate    = document.getElementById("gate");
+const access = document.getElementById("access");
+const load   = document.getElementById("loading");
+
 let started = false;
 
 gate.addEventListener("click", () => {
-
   if (started) return;
   started = true;
 
-  // 背景切替
+  // 背景
   document.body.classList.add("room-light");
 
-  // ★ 中身を完全に作り直す（最重要）
-  gate.className = "loading";
-  gate.innerHTML = '<div class="title">起動中…</div>';
+  // 表示切り替え（DOMは消さない）
+  access.style.display = "none";
+  load.style.display   = "block";
 
-  // 音声（1回のみ）
+  // アニメ切替
+  gate.classList.remove("waiting");
+  gate.classList.add("loading");
+
+  // 音声（1回）
   const voice = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
   voice.lang = "ja-JP";
   voice.rate = 0.9;
   voice.pitch = 1.15;
   voice.volume = 0.7;
   speechSynthesis.speak(voice);
-
 });
 </script>
 
