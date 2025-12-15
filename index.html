@@ -12,6 +12,7 @@
   --neon: #00ffcc;
 }
 
+/* ===== 基本 ===== */
 body {
   margin: 0;
   height: 100svh;
@@ -31,17 +32,20 @@ body.room-light {
   filter: brightness(1);
 }
 
+/* ===== 中央固定 ===== */
 #gate {
   text-align: center;
-  cursor: pointer;
   user-select: none;
+  cursor: pointer;
 }
 
+/* ===== テキスト ===== */
 .title {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
   letter-spacing: 0.2em;
 }
 
+/* ===== アニメ ===== */
 @keyframes pulse {
   0% { opacity: 0.4; }
   50% { opacity: 1; }
@@ -53,4 +57,4 @@ body.room-light {
 }
 
 .loading {
-  animation: pulse 1.2s
+  animation: pulse 1.2s ease-in-out i
