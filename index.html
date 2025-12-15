@@ -20,7 +20,7 @@
 ===================== */
 body {
   margin: 0;
-  height: 100svh; /* スマホのズレ対策 */
+  height: 100svh;
   background: var(--bg-dark);
   color: var(--neon);
   display: flex;
@@ -38,17 +38,15 @@ body.room-light {
 }
 
 /* =====================
-   中央ゲート
+   共通中央
 ===================== */
-#gate {
+.center {
   text-align: center;
-  cursor: pointer;
   user-select: none;
-  padding: 1rem; /* タップ安定 */
 }
 
 /* =====================
-   テキスト
+   タイトル文字
 ===================== */
 .title {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
@@ -63,7 +61,7 @@ body.room-light {
 }
 
 /* =====================
-   待機中サイバー脈動
+   待機中 脈動
 ===================== */
 @keyframes pulse {
   0%   { opacity: 0.4; }
@@ -73,16 +71,31 @@ body.room-light {
 
 .waiting {
   animation: pulse 1.6s ease-in-out infinite;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+/* =====================
+   起動中 表示
+===================== */
+.loading {
+  animation: pulse 1.2s ease-in-out infinite;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== ゲート表示 ===== -->
-<div id="gate" class="waiting">
+<!-- ===== 待機画面 ===== -->
+<div id="gate" class="center waiting">
   <div class="title">アクセスノード</div>
   <div class="sub">タップして入室</div>
+</div>
+
+<!-- ===== 起動中画面（最初は非表示） ===== -->
+<div id="loading" class="center loading" style="display:none;">
+  <div class="title">起動中…</div>
+  <div class="sub">システム初期化中</div>
 </div>
 
 <script>
@@ -90,22 +103,21 @@ body.room-light {
    入室処理（1回のみ）
 ===================== */
 const gate = document.getElementById("gate");
-const subText = gate.querySelector(".sub");
+const loading = document.getElementById("loading");
 
-let systemStarted = false; // 起動フラグ
+let systemStarted = false;
 
 gate.addEventListener("click", () => {
 
-  /* 2回目以降は何もしない */
   if (systemStarted) return;
   systemStarted = true;
 
-  /* 脈動停止 */
-  gate.classList.remove("waiting");
-  gate.style.animation = "none";
-
   /* 明転 */
   document.body.classList.add("room-light");
+
+  /* 画面切り替え */
+  gate.style.display = "none";
+  loading.style.display = "block";
 
   /* 音声（1回のみ） */
   const voice = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
@@ -115,16 +127,14 @@ gate.addEventListener("click", () => {
   voice.volume = 0.7;
   speechSynthesis.speak(voice);
 
-  /* 状態表示 */
-  subText.textContent = "接続中…";
-
-  /* ページ遷移（必要なら）
+  /* 必要なら次画面へ
   setTimeout(() => {
     window.location.href = "download.html";
-  }, 1500);
+  }, 2000);
   */
 });
 </script>
 
 </body>
 </html>
+
