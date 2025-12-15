@@ -7,61 +7,72 @@
 
 <style>
 /* =====================
+   カラーテーマ
+===================== */
+:root {
+  --bg-dark: #020404;
+  --bg-light: #0a141f;
+  --neon: #00ffcc;
+}
+
+/* =====================
    基本設定
 ===================== */
 body {
   margin: 0;
-  height: 100vh;
-  background-color: #020404;
-  color: #00ffcc;
+  height: 100svh; /* スマホのズレ対策 */
+  background: var(--bg-dark);
+  color: var(--neon);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: monospace;
   overflow: hidden;
-  transition: background-color 1.2s ease, filter 1.2s ease;
   filter: brightness(0.65);
+  transition: background 1.2s ease, filter 1.2s ease;
 }
 
 body.room-light {
-  background-color: #0a141f;
+  background: var(--bg-light);
   filter: brightness(1);
 }
 
 /* =====================
-   中央コンテナ
+   中央ゲート
 ===================== */
 #gate {
   text-align: center;
   cursor: pointer;
   user-select: none;
+  padding: 1rem; /* タップ安定 */
 }
 
 /* =====================
-   テキストサイズ
+   テキスト
 ===================== */
 .title {
-  font-size: clamp(2.2rem, 6vw, 3.6rem); /* PC/スマホ両対応 */
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
   letter-spacing: 0.2em;
   margin-bottom: 0.6em;
 }
 
 .sub {
   font-size: clamp(1rem, 3.5vw, 1.4rem);
-  opacity: 0.85;
   letter-spacing: 0.25em;
+  opacity: 0.85;
 }
 
 /* =====================
-   点滅（待機中のみ）
+   待機中サイバー脈動
 ===================== */
-@keyframes blink {
-  0%, 45% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+@keyframes pulse {
+  0%   { opacity: 0.4; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.4; }
 }
 
-.blink {
-  animation: blink 1.2s infinite;
+.waiting {
+  animation: pulse 1.6s ease-in-out infinite;
 }
 </style>
 </head>
@@ -69,41 +80,49 @@ body.room-light {
 <body>
 
 <!-- ===== ゲート表示 ===== -->
-<div id="gate" class="blink">
+<div id="gate" class="waiting">
   <div class="title">アクセスノード</div>
   <div class="sub">タップして入室</div>
 </div>
 
 <script>
 /* =====================
-   入室処理
+   入室処理（1回のみ）
 ===================== */
 const gate = document.getElementById("gate");
+const subText = gate.querySelector(".sub");
+
+let systemStarted = false; // 起動フラグ
 
 gate.addEventListener("click", () => {
 
-  /* 🔴 点滅を完全停止（最重要） */
-  gate.classList.remove("blink");
+  /* 2回目以降は何もしない */
+  if (systemStarted) return;
+  systemStarted = true;
+
+  /* 脈動停止 */
+  gate.classList.remove("waiting");
   gate.style.animation = "none";
 
   /* 明転 */
   document.body.classList.add("room-light");
 
-  /* 音声（ユーザー操作後なのでPC/スマホOK） */
-  const msg = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
-  msg.lang = "ja-JP";
-  msg.rate = 0.9;
-  msg.pitch = 1.15;
-  msg.volume = 0.7;
-  speechSynthesis.speak(msg);
+  /* 音声（1回のみ） */
+  const voice = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
+  voice.lang = "ja-JP";
+  voice.rate = 0.9;
+  voice.pitch = 1.15;
+  voice.volume = 0.7;
+  speechSynthesis.speak(voice);
 
-  /* 表示更新（点滅しない静止状態） */
-  gate.querySelector(".sub").textContent = "接続中…";
+  /* 状態表示 */
+  subText.textContent = "接続中…";
 
-  /* 必要なら遷移（今はコメントアウト） */
-  // setTimeout(() => {
-  //   window.location.href = "download.html";
-  // }, 1500);
+  /* ページ遷移（必要なら）
+  setTimeout(() => {
+    window.location.href = "download.html";
+  }, 1500);
+  */
 });
 </script>
 
