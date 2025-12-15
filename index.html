@@ -38,7 +38,7 @@ body.room-light {
 }
 
 /* =====================
-   共通中央
+   中央共通
 ===================== */
 .center {
   text-align: center;
@@ -46,7 +46,7 @@ body.room-light {
 }
 
 /* =====================
-   タイトル文字
+   テキスト
 ===================== */
 .title {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
@@ -61,7 +61,7 @@ body.room-light {
 }
 
 /* =====================
-   待機中 脈動
+   脈動アニメーション
 ===================== */
 @keyframes pulse {
   0%   { opacity: 0.4; }
@@ -75,9 +75,6 @@ body.room-light {
   padding: 1rem;
 }
 
-/* =====================
-   起動中 表示
-===================== */
 .loading {
   animation: pulse 1.2s ease-in-out infinite;
 }
@@ -86,13 +83,13 @@ body.room-light {
 
 <body>
 
-<!-- ===== 待機画面 ===== -->
+<!-- ===== 初期：アクセスノード ===== -->
 <div id="gate" class="center waiting">
   <div class="title">アクセスノード</div>
   <div class="sub">タップして入室</div>
 </div>
 
-<!-- ===== 起動中画面（最初は非表示） ===== -->
+<!-- ===== 切替後：起動中画面 ===== -->
 <div id="loading" class="center loading" style="display:none;">
   <div class="title">起動中…</div>
   <div class="sub">システム初期化中</div>
@@ -100,7 +97,7 @@ body.room-light {
 
 <script>
 /* =====================
-   入室処理（1回のみ）
+   切り替え処理（1回のみ）
 ===================== */
 const gate = document.getElementById("gate");
 const loading = document.getElementById("loading");
@@ -112,7 +109,7 @@ gate.addEventListener("click", () => {
   if (systemStarted) return;
   systemStarted = true;
 
-  /* 明転 */
+  /* 背景明転 */
   document.body.classList.add("room-light");
 
   /* 画面切り替え */
@@ -127,11 +124,6 @@ gate.addEventListener("click", () => {
   voice.volume = 0.7;
   speechSynthesis.speak(voice);
 
-  /* 必要なら次画面へ
-  setTimeout(() => {
-    window.location.href = "download.html";
-  }, 2000);
-  */
 });
 </script>
 
