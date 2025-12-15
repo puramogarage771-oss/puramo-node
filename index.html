@@ -7,7 +7,7 @@
 
 <style>
 /* =====================
-   テーマ
+   テーマカラー
 ===================== */
 :root {
   --bg-dark: #020404;
@@ -16,7 +16,7 @@
 }
 
 /* =====================
-   基本
+   基本設定
 ===================== */
 body {
   margin: 0;
@@ -39,7 +39,7 @@ body.room-light {
 }
 
 /* =====================
-   中央コンテナ（1つだけ）
+   中央ユニット（1つだけ）
 ===================== */
 #gate {
   text-align: center;
@@ -53,17 +53,10 @@ body.room-light {
 .title {
   font-size: clamp(2.2rem, 6vw, 3.6rem);
   letter-spacing: 0.2em;
-  margin-bottom: 0.6em;
-}
-
-.sub {
-  font-size: clamp(1rem, 3.5vw, 1.4rem);
-  letter-spacing: 0.25em;
-  opacity: 0.85;
 }
 
 /* =====================
-   待機中 脈動
+   脈動アニメ
 ===================== */
 @keyframes pulse {
   0%   { opacity: 0.4; }
@@ -75,9 +68,6 @@ body.room-light {
   animation: pulse 1.6s ease-in-out infinite;
 }
 
-/* =====================
-   起動中（同じ位置）
-===================== */
 .loading {
   animation: pulse 1.2s ease-in-out infinite;
 }
@@ -86,10 +76,9 @@ body.room-light {
 
 <body>
 
-<!-- ===== 中央表示（1ユニット） ===== -->
+<!-- ===== 中央表示 ===== -->
 <div id="gate" class="waiting">
   <div class="title" id="title">アクセスノード</div>
-  <div class="sub" id="sub">タップして入室</div>
 </div>
 
 <script>
@@ -98,7 +87,6 @@ body.room-light {
 ===================== */
 const gate  = document.getElementById("gate");
 const title = document.getElementById("title");
-const sub   = document.getElementById("sub");
 
 let started = false;
 
@@ -114,9 +102,8 @@ gate.addEventListener("click", () => {
   /* 明転 */
   document.body.classList.add("room-light");
 
-  /* 表示切り替え（同じ中央） */
+  /* 表示切り替え */
   title.textContent = "起動中…";
-  sub.textContent   = "システム初期化中";
 
   /* 起動中アニメ */
   gate.classList.add("loading");
@@ -133,3 +120,4 @@ gate.addEventListener("click", () => {
 
 </body>
 </html>
+
