@@ -32,7 +32,6 @@ body {
   transition: background 1.2s ease, filter 1.2s ease;
 }
 
-/* 明転 */
 body.room-light {
   background: var(--bg-light);
   filter: brightness(1);
@@ -76,7 +75,7 @@ body.room-light {
 
 <body>
 
-<!-- ===== 中央表示 ===== -->
+<!-- ===== 中央表示（これだけ） ===== -->
 <div id="gate" class="waiting">
   <div class="title" id="title">アクセスノード</div>
 </div>
@@ -108,7 +107,7 @@ gate.addEventListener("click", () => {
   /* 起動中アニメ */
   gate.classList.add("loading");
 
-  /* 音声（1回だけ） */
+  /* 音声（1回のみ） */
   const voice = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
   voice.lang = "ja-JP";
   voice.rate = 0.9;
@@ -120,4 +119,3 @@ gate.addEventListener("click", () => {
 
 </body>
 </html>
-
