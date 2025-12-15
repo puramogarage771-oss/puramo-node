@@ -7,7 +7,7 @@
 
 <style>
 /* =====================
-   カラーテーマ
+   テーマ
 ===================== */
 :root {
   --bg-dark: #020404;
@@ -16,7 +16,7 @@
 }
 
 /* =====================
-   基本設定
+   基本
 ===================== */
 body {
   margin: 0;
@@ -32,17 +32,19 @@ body {
   transition: background 1.2s ease, filter 1.2s ease;
 }
 
+/* 明転 */
 body.room-light {
   background: var(--bg-light);
   filter: brightness(1);
 }
 
 /* =====================
-   中央共通
+   中央コンテナ（1つだけ）
 ===================== */
-.center {
+#gate {
   text-align: center;
   user-select: none;
+  cursor: pointer;
 }
 
 /* =====================
@@ -61,7 +63,7 @@ body.room-light {
 }
 
 /* =====================
-   脈動アニメーション
+   待機中 脈動
 ===================== */
 @keyframes pulse {
   0%   { opacity: 0.4; }
@@ -71,10 +73,11 @@ body.room-light {
 
 .waiting {
   animation: pulse 1.6s ease-in-out infinite;
-  cursor: pointer;
-  padding: 1rem;
 }
 
+/* =====================
+   起動中（同じ位置）
+===================== */
 .loading {
   animation: pulse 1.2s ease-in-out infinite;
 }
@@ -83,50 +86,50 @@ body.room-light {
 
 <body>
 
-<!-- ===== 初期：アクセスノード ===== -->
-<div id="gate" class="center waiting">
-  <div class="title">アクセスノード</div>
-  <div class="sub">タップして入室</div>
-</div>
-
-<!-- ===== 切替後：起動中画面 ===== -->
-<div id="loading" class="center loading" style="display:none;">
-  <div class="title">起動中…</div>
-  <div class="sub">システム初期化中</div>
+<!-- ===== 中央表示（1ユニット） ===== -->
+<div id="gate" class="waiting">
+  <div class="title" id="title">アクセスノード</div>
+  <div class="sub" id="sub">タップして入室</div>
 </div>
 
 <script>
 /* =====================
-   切り替え処理（1回のみ）
+   クリック処理（1回のみ）
 ===================== */
-const gate = document.getElementById("gate");
-const loading = document.getElementById("loading");
+const gate  = document.getElementById("gate");
+const title = document.getElementById("title");
+const sub   = document.getElementById("sub");
 
-let systemStarted = false;
+let started = false;
 
 gate.addEventListener("click", () => {
 
-  if (systemStarted) return;
-  systemStarted = true;
+  if (started) return;
+  started = true;
 
-  /* 背景明転 */
+  /* 待機アニメ停止 */
+  gate.classList.remove("waiting");
+  gate.style.animation = "none";
+
+  /* 明転 */
   document.body.classList.add("room-light");
 
-  /* 画面切り替え */
-  gate.style.display = "none";
-  loading.style.display = "block";
+  /* 表示切り替え（同じ中央） */
+  title.textContent = "起動中…";
+  sub.textContent   = "システム初期化中";
 
-  /* 音声（1回のみ） */
+  /* 起動中アニメ */
+  gate.classList.add("loading");
+
+  /* 音声（1回だけ） */
   const voice = new SpeechSynthesisUtterance("ダウンロードシステム、起動！");
   voice.lang = "ja-JP";
   voice.rate = 0.9;
   voice.pitch = 1.15;
   voice.volume = 0.7;
   speechSynthesis.speak(voice);
-
 });
 </script>
 
 </body>
 </html>
-
